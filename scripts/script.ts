@@ -1,0 +1,1 @@
+const ads = 1;
