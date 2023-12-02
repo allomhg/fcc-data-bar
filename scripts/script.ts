@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+/// <reference path="../node_modules/@types/d3/index.d.ts"/>
+
 
 export function createBarGraph() {
     const height = 500;
