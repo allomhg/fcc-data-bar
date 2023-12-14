@@ -19,8 +19,14 @@ main {
 
 #svg-container {
     margin: auto;
-    margin-top: 250px;
+    margin-top: 50px;
     height: 500px;
     width: 500px;
-    background-color: blue;
+    background-color: whitesmoke;
+}
+
+.bar {
+    &:hover {
+        fill: red;
+    }
 }
