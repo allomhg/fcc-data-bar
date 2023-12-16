@@ -14,10 +14,9 @@
     </head>
     <body>
         <main class="container-fluid">
-            <header class="page-header">
-                <h1 id="page-title" class="text-capitalize text-primary text-center">Chart Heading</h1>
-            </header>
-            <div id="svg-container">
+            <div class="chart-container bg-body container-fluid m-auto">
+                <h1 id="title" class="text-capitalize text-primary text-center">Chart Heading</h1>
+                <div id="svg-container"></div>
             </div>
         </main>
         <!-- Include scripts here -->
@@ -37,49 +36,69 @@
             //         })
             // })
 
+
+            // This is mock data for testing
             const testData = [10, 15, 20, 25, 30, 35];
 
             const url = "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json";
+            const econData = await d3.json(url); // There are 275 points (bars) of data, this needs to be taken into consideration when sizing the charts
+            // console.log(econData);
+
+            const gdpByYear = econData.data;
+            const years = econData.data.map((data) => data[0]);
+            const gdpValue = econData.data.map((data) => data[1]);
+            // console.log(gdpByYear);
+            // console.log(years);
+            // console.log(gdpValue);
+            // gdpByYear.forEach((e) => console.log(e[1]));
 
             const height = 500,
-                  width = 500,
-                  margin = 30;
+                  width = 800,
+                  margin = 30,
+                  barWidth = width / 275;            
 
-            const scale = d3.scaleLinear();
-            const output = scale(50);
+            // const scale = d3.scaleLinear();
+            // const output = scale(50);
 
-            const econData = await d3.json(url);
-            console.log(econData);
+            const dateConverted = new Date(years);
 
             const svg = d3.select("#svg-container")
                 .append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("class", "svg-area");
+
+
+            const xScale = d3.scaleLinear()
+                .domain([d3.min(years, (d) => d)])
+
+            // const xAxisText = svg.append("g")
+            //     .attr("transform", "translate(0," + (height - margin) + ")")
             
             svg.selectAll("rect")
-                .data(testData)
+                .data(gdpValue)
                 .enter()
                 .append("rect")
                 .attr("x", (d, i) => {
-                    return i * 30 + 20;
+                    return i + margin;
                 })
                 .attr("y", (d, i) => { 
-                    return height - d - 20;
+                    return (height - d) - 20;
                 })
-                .attr("width", 25)
+                .attr("width", barWidth)
                 .attr("height", (d, i) => d)
                 .attr("fill", "navy")
                 .attr("class", "bar")
                 .append("title")
                 .text((d) => d);
 
-            svg.selectAll("text")
-                .data(testData)
-                .enter()
-                .append("text")
-                .attr("x", (d, i) => i * 30 + 20 )
-                .attr("y", (d, i) => (height - d) - 25 )
-                .text((d) => d);
+            // svg.selectAll("text")
+            //     .data(testData)
+            //     .enter()
+            //     .append("text")
+            //     .attr("x", (d, i) => i * 30 + 20 )
+            //     .attr("y", (d, i) => (height - d) - 25 )
+            //     .text((d) => d);
         </script>
     </body>
 </html>
