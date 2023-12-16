@@ -50,7 +50,8 @@
             const height = 500,
                   width = 800,
                   margin = 50,
-                  barWidth = width / 275;            
+                  barWidth = width / 275;     
+                //   barWidth = 25;          
 
             // const dateConverted = new Date(years[1]).getTime();
             // console.log(dateConverted);
@@ -65,26 +66,21 @@
             // Setup the x and y-axis scales
             const xScale = d3.scaleLinear()
                 .domain([0, years.length])
-                .range([margin, width - margin]);
+                .range([margin, width]);
 
             const yScale = d3.scaleLinear()
                 .domain([0, d3.max(gdpValue, (d) => d)])
                 .range([height - margin, margin]);
-
-            // console.log(yScale)
             
             const xAxis = d3.axisBottom(xScale);
             const yAxis = d3.axisLeft(yScale);
-
-            // const scaledGDP = gdpValue.map((value) => yScale(value));
-            // console.log(scaledGDP);
             
             svg.selectAll("rect")
                 .data(gdpValue)
                 .enter()
                 .append("rect")
                 .attr("x", (d, i) => {
-                    return i + (margin + 25);
+                    return (i * barWidth) + margin;
                 })
                 .attr("y", (d, i) => { 
                     return (height - d) - margin;
@@ -97,11 +93,11 @@
                 .text((d) => d);
 
             svg.append("g")
-                .attr("transform", "translate(25," + (height - margin) + ")")
+                .attr("transform", "translate(0," + (height - margin) + ")")
                 .call(xAxis);
 
             svg.append("g")
-                .attr("transform", "translate(" + (margin + 25) + ", 0)")
+                .attr("transform", "translate(" + (margin) + ", 0)")
                 .call(yAxis);   
         </script>
     </body>
