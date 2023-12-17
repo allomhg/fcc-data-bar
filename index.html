@@ -44,7 +44,7 @@
             const yearsData = econData.data.map((data) => data[0]); // Extract the date values into their own array
             const gdpValue = econData.data.map((data) => data[1]); // Extract the GDP values into their own array
             // console.log(gdpByYear);
-            console.log(yearsData);
+            // console.log(yearsData);
             // console.log(gdpValue);
             // console.log(Math.max(...gdpValue));
             // console.log(gdpValue)
@@ -71,7 +71,7 @@
             */
             
             const yearsArrStr = yearsData.map((date) => {
-                const tempStr = date.substring(5, 7);
+                const tempStr = date.substring(5, 7); // Quater values - 01, 04, 07, 10
 
                 switch (tempStr) {
                     case "01": 
@@ -89,7 +89,7 @@
             const xScale = d3.scaleLinear()
                 // .domain([0, yearsData.length])
                 .domain([0, yearsData.length])
-                .range([margin, width]);
+                .range([margin, width - margin]);
 
             const yScale = d3.scaleLinear()
                 .domain([0, d3.max(gdpValue, (d) => d)])
@@ -122,6 +122,13 @@
             svg.append("g")
                 .attr("transform", "translate(" + (margin) + ", 0)")
                 .call(yAxis);   
+
+            svg.append("text")
+                .attr("fill", "red")
+                .attr("x", -225)
+                .attr("y", margin + 20)
+                .attr("transform", "rotate(270)")
+                .text("Gross Domestic Product");
         </script>
     </body>
 </html>
